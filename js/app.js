@@ -1,35 +1,88 @@
 // Enemies our player must avoid
-var Enemy = function(x,y) {
+function Edges() {
+    this.halfBoxHeight = 37;
+    this.halfBoxWidth = 50;
+    this.boxUp = this.y - this.halfBoxHeight;
+    this.boxDown = this.y + this.halfBoxHeight;
+    this.boxLeft = this.x - this.halfBoxWidth;
+    this.boxRight = this.x + this.halfBoxWidth;
+}
+
+var Enemy = function(enemyX,enemyY, speed) {
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
-
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
     this.sprite = 'images/enemy-bug.png';
+    this.x = enemyX;
+    this.y = enemyY;
+    this.speed = speed;
 };
 
+var speedMultiply = 50;
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
 Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
+    this.x += this.speed * dt;
+
+    if (player.y > this.boxUp && player.y < this.boxDown && player.x > this.boxLeft && player.x < this.boxRight) {
+    collide = true;
+    }
 };
+
+
 
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
+
+Enemy.prototype.speedGenerator = function() {
+    this.speed = speedMultiply(Math.floor(Math.random() * 10) + 1);
+}
+
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
+var Player = function(x,y) {
+    this.sprite = 'images/char-cat-girl.png';
+    this.startingX = 219;
+    this.startingY = 450;
+    this.x = this.startingX;
+    this.y = this.startingY;
+
+    this.gameTopEdge = 110;
+    this.gameLeftEdge = 19;
+    this.gameRightEdge = 419;
+
+    this.moveVertical = 85;
+    this.moveHorizontal = 100;
+};
+
+Player.prototype.update = function(dt) {
+    this.x += this.x * dt;
+    this.y += this.y * dt;
+};
+
+Player.prototype.render = function() {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+};
 
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
+var allEnemies = [];
+for (var i=1; i<4; i++){
+    var initialSpeed = speedMultiply * (Math.floor(Math.random() * 10) + 1);
+    var enemy = new Enemy(initialSpeed);
+    allEnemies.push(enemy);
+};
 // Place the player object in a variable called player
-
+var player = new Player();
 
 
 // This listens for key presses and sends the keys to your

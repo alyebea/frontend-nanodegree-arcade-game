@@ -1,38 +1,24 @@
-// Enemies our player must avoid
-function Edges() {
-    this.halfBoxHeight = 37;
-    this.halfBoxWidth = 50;
-    this.boxUp = this.y - this.halfBoxHeight;
-    this.boxDown = this.y + this.halfBoxHeight;
-    this.boxLeft = this.x - this.halfBoxWidth;
-    this.boxRight = this.x + this.halfBoxWidth;
-}
+// Enemies class
 
-var Enemy = function(enemyX,enemyY, speed) {
-    // Variables applied to each of our instances go here,
-    // we've provided one for you to get started
-    // The image/sprite for our enemies, this uses
-    // a helper we've provided to easily load images
+var Enemy = function(x,y, speed) {
+
     this.sprite = 'images/enemy-bug.png';
-    this.x = enemyX;
-    this.y = enemyY;
+    this.x = x;
+    this.y = y;
     this.speed = speed;
 };
 
 var speedMultiply = 50;
-// Update the enemy's position, required method for game
-// Parameter: dt, a time delta between ticks
+
+
+// Update speed of enemy
 Enemy.prototype.update = function(dt) {
-    // You should multiply any movement by the dt parameter
-    // which will ensure the game runs at the same speed for
-    // all computers.
-    this.x += this.speed * dt;
+    this.x = this.x + this.speed * dt;
 
-    if (player.y > this.boxUp && player.y < this.boxDown && player.x > this.boxLeft && player.x < this.boxRight) {
-    collide = true;
-    }
+     if (this.x > 909) {
+                this.x = Math.random() * -900;
+            };
 };
-
 
 
 // Draw the enemy on the screen, required method for game
@@ -41,47 +27,84 @@ Enemy.prototype.render = function() {
 };
 
 
-Enemy.prototype.speedGenerator = function() {
-    this.speed = speedMultiply(Math.floor(Math.random() * 10) + 1);
-}
 
-// Now write your own player class
-// This class requires an update(), render() and
-// a handleInput() method.
-var Player = function(x,y) {
+// Player class
+var Player = function(x, y) {
     this.sprite = 'images/char-cat-girl.png';
-    this.startingX = 219;
-    this.startingY = 450;
+    this.startingX = 200;
+    this.startingY = 400;
     this.x = this.startingX;
     this.y = this.startingY;
 
     this.gameTopEdge = 110;
-    this.gameLeftEdge = 19;
-    this.gameRightEdge = 419;
+    this.gameLeftEdge = 0;
+    this.gameRightEdge = 400;
 
     this.moveVertical = 85;
     this.moveHorizontal = 100;
 };
 
+// Update speed of player
 Player.prototype.update = function(dt) {
-    this.x += this.x * dt;
-    this.y += this.y * dt;
+    this.x = this.x;
+    this.y = this.y;
 };
 
+// Draw player
 Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
-
-// Now instantiate your objects.
-// Place all enemy objects in an array called allEnemies
-var allEnemies = [];
-for (var i=1; i<4; i++){
-    var initialSpeed = speedMultiply * (Math.floor(Math.random() * 10) + 1);
-    var enemy = new Enemy(initialSpeed);
-    allEnemies.push(enemy);
+// Resets player to original square
+Player.prototype.playerReset = function() {
+    this.x = this.startingX;
+    this.y = this.startingY;
 };
-// Place the player object in a variable called player
+
+// Controls player with arrow keys
+Player.prototype.handleInput = function (keyup) {
+    switch(keyup) {
+        case 'up':
+            if (this.y == this.gameTopEdge) {
+                up = true;
+            } else {
+                this.y -= this.moveVertical;
+            }
+            break;
+        case 'down':
+            if (this.y === this.startingY) {
+                return null;
+            } else {
+                this.y += this.moveVertical;
+            }
+            break;
+        case 'left':
+            if (this.x === this.gameLeftEdge) {
+                return null;
+            } else {
+                this.x -= this.moveHorizontal;
+            }
+            break;
+        case 'right':
+            if (this.x === this.gameRightEdge) {
+                return null;
+            } else {
+                this.x += this.moveHorizontal;
+            }
+            break;
+        default:
+            return null;
+    }
+};
+
+// Array of enemies
+var allEnemies = [];
+for (var i = 0; i < 3; i++) {
+    speed = speedMultiply * (Math.floor(Math.random() * 10) + 1);
+    allEnemies.push(new Enemy(-85, 50 + 90 * i, speed));
+    };
+
+// Calls player
 var player = new Player();
 
 

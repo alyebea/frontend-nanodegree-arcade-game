@@ -15,9 +15,10 @@ var speedMultiply = 50;
 Enemy.prototype.update = function(dt) {
     this.x = this.x + this.speed * dt;
 
-     if (this.x > 909) {
-                this.x = Math.random() * -900;
-            };
+// Loops bugs back to beginning
+     if (this.x > 550) {
+            this.x = Math.random() * -900;
+        };
 };
 
 
@@ -27,9 +28,8 @@ Enemy.prototype.render = function() {
 };
 
 
-
 // Player class
-var Player = function(x, y) {
+var Player = function() {
     this.sprite = 'images/char-cat-girl.png';
     this.startingX = 200;
     this.startingY = 400;
@@ -48,6 +48,7 @@ var Player = function(x, y) {
 Player.prototype.update = function(dt) {
     this.x = this.x;
     this.y = this.y;
+    checkCollision();
 };
 
 // Draw player
@@ -57,18 +58,18 @@ Player.prototype.render = function() {
 
 // Resets player to original square
 Player.prototype.playerReset = function() {
-    this.x = this.startingX;
-    this.y = this.startingY;
+        this.x = this.startingX;
+        this.y = this.startingY;
 };
 
 // Controls player with arrow keys
 Player.prototype.handleInput = function (keyup) {
     switch(keyup) {
         case 'up':
-            if (this.y == this.gameTopEdge) {
-                up = true;
-            } else {
+            if (this.y > this.gameTopEdge) {
                 this.y -= this.moveVertical;
+            } else {
+                player.playerReset();
             }
             break;
         case 'down':
@@ -100,12 +101,27 @@ Player.prototype.handleInput = function (keyup) {
 // Array of enemies
 var allEnemies = [];
 for (var i = 0; i < 3; i++) {
-    speed = speedMultiply * (Math.floor(Math.random() * 10) + 1);
-    allEnemies.push(new Enemy(-85, 50 + 90 * i, speed));
+    speed = speedMultiply * (Math.floor(Math.random() * 10) + 2);
+    allEnemies.push(new Enemy(-90, 50 + 90 * i, speed));
     };
 
 // Calls player
 var player = new Player();
+
+// Check for collisions with enemies
+var checkCollision = function() {
+
+    for (i = 0; i < allEnemies.length; i++) {
+        if (allEnemies[i].x < player.x + 50 &&
+           allEnemies[i].x + 50 > player.x &&
+           allEnemies[i].y < player.y + 75 &&
+           75 + allEnemies[i].y > player.y) {
+            console.log("collided");
+            player.playerReset();
+        // collision detected!
+        }
+    }
+};
 
 
 // This listens for key presses and sends the keys to your

@@ -8,19 +8,15 @@ var Enemy = function(x,y, speed) {
     this.speed = speed;
 };
 
-// var speedMultiply = 50;
-
-
 // Update speed of enemy
 Enemy.prototype.update = function(dt) {
     this.x = this.x + this.speed * dt;
 
 // Loop bugs back to beginning
-     if (this.x > 550) {
-            this.x = Math.random() * -700;
-        };
+    if (this.x > 550) {
+        this.x = Math.random() * -700;
+    }
 };
-
 
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
@@ -70,10 +66,11 @@ Player.prototype.handleInput = function (keyup) {
                 this.y -= this.moveVertical;
             } else {
                 player.playerReset();
+                message();
             }
             break;
         case 'down':
-            if (this.y === this.startingY) {
+            if (this.y === 400) {
                 return null;
             } else {
                 this.y += this.moveVertical;
@@ -105,7 +102,7 @@ for (var i = 0; i < 3; i++) {
     var speed2 = 40 * Math.floor(Math.random() * 11) + 4;
     allEnemies.push(new Enemy(-90, 50 + 90 * i, speed1));
     allEnemies.push(new Enemy(-90, 50 + 90 * i, speed2));
-    };
+};
 
 // Calls player
 var player = new Player();

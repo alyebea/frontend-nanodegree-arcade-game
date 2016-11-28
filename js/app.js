@@ -8,16 +8,16 @@ var Enemy = function(x,y, speed) {
     this.speed = speed;
 };
 
-var speedMultiply = 50;
+// var speedMultiply = 50;
 
 
 // Update speed of enemy
 Enemy.prototype.update = function(dt) {
     this.x = this.x + this.speed * dt;
 
-// Loops bugs back to beginning
+// Loop bugs back to beginning
      if (this.x > 550) {
-            this.x = Math.random() * -900;
+            this.x = Math.random() * -700;
         };
 };
 
@@ -31,15 +31,15 @@ Enemy.prototype.render = function() {
 // Player class
 var Player = function() {
     this.sprite = 'images/char-cat-girl.png';
-    this.startingX = 200;
-    this.startingY = 400;
-    this.x = this.startingX;
-    this.y = this.startingY;
+    this.x = 200;
+    this.y = 400;
 
-    this.gameTopEdge = 110;
-    this.gameLeftEdge = 0;
-    this.gameRightEdge = 400;
+// Set the edges of the game
+    this.gameTop = 100;
+    this.gameLeft = 0;
+    this.gameRight = 400;
 
+// Pixels player moves vertical and horizontal
     this.moveVertical = 85;
     this.moveHorizontal = 100;
 };
@@ -56,17 +56,17 @@ Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
-// Resets player to original square
+// Reset player to original square
 Player.prototype.playerReset = function() {
-        this.x = this.startingX;
-        this.y = this.startingY;
+    this.x = 200;
+    this.y = 400;
 };
 
-// Controls player with arrow keys
+// Control player with arrow keys
 Player.prototype.handleInput = function (keyup) {
     switch(keyup) {
         case 'up':
-            if (this.y > this.gameTopEdge) {
+            if (this.y > this.gameTop) {
                 this.y -= this.moveVertical;
             } else {
                 player.playerReset();
@@ -80,14 +80,14 @@ Player.prototype.handleInput = function (keyup) {
             }
             break;
         case 'left':
-            if (this.x === this.gameLeftEdge) {
+            if (this.x === this.gameLeft) {
                 return null;
             } else {
                 this.x -= this.moveHorizontal;
             }
             break;
         case 'right':
-            if (this.x === this.gameRightEdge) {
+            if (this.x === this.gameRight) {
                 return null;
             } else {
                 this.x += this.moveHorizontal;
@@ -101,8 +101,10 @@ Player.prototype.handleInput = function (keyup) {
 // Array of enemies
 var allEnemies = [];
 for (var i = 0; i < 3; i++) {
-    speed = speedMultiply * (Math.floor(Math.random() * 10) + 2);
-    allEnemies.push(new Enemy(-90, 50 + 90 * i, speed));
+    var speed1 = 60 * Math.floor(Math.random() * 11) + 4;
+    var speed2 = 40 * Math.floor(Math.random() * 11) + 4;
+    allEnemies.push(new Enemy(-90, 50 + 90 * i, speed1));
+    allEnemies.push(new Enemy(-90, 50 + 90 * i, speed2));
     };
 
 // Calls player

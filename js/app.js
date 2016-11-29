@@ -1,5 +1,4 @@
 // Enemies class
-
 var Enemy = function(x,y, speed) {
 
     this.sprite = 'images/enemy-bug.png';
@@ -29,6 +28,8 @@ var Player = function() {
     this.sprite = 'images/char-cat-girl.png';
     this.x = 200;
     this.y = 400;
+
+    this.score = 0;
 
 // Set the edges of the game
     this.gameTop = 100;
@@ -66,7 +67,8 @@ Player.prototype.handleInput = function (keyup) {
                 this.y -= this.moveVertical;
             } else {
                 player.playerReset();
-                message();
+                this.score += 20;
+                document.getElementById("score").innerHTML=player.score;
             }
             break;
         case 'down':

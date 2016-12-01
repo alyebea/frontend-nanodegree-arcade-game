@@ -1,8 +1,8 @@
 #Bug Frogger
-Your character is trying to get to the river on the other side, but be careful, giant bugs are on their way to work and will knock you out of the game if you're not careful. 
+Your character is trying to get to the river on the other side, but be careful, giant bugs are on their way to work and will knock you out of the game if you're not careful.
 
-##How to begin
-Follow this link to play the game. 
+##How to run
+Click on index.html or visit my [GitHub page](https://alyebea.github.io/frontend-nanodegree-arcade-game/) and enjoy the playing the game!
 
 ##How to play
 * Move your character up, down, left and right with the arrow keys.

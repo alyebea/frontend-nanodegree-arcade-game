@@ -1,6 +1,9 @@
+/** Object-oriented javascript that helps run frogger game. Project part of
+Udacity Front-end Nanodegree. by Alye Carlevaro 11/28/16 */
+
 // Enemies class
 var Enemy = function(x,y, speed) {
-
+    'usestrict';
     this.sprite = 'images/enemy-bug.png';
     this.x = x;
     this.y = y;
@@ -9,6 +12,7 @@ var Enemy = function(x,y, speed) {
 
 // Update speed of enemy
 Enemy.prototype.update = function(dt) {
+    'usestrict';
     this.x = this.x + this.speed * dt;
 
 // Loop bugs back to beginning
@@ -17,14 +21,16 @@ Enemy.prototype.update = function(dt) {
     }
 };
 
-// Draw the enemy on the screen, required method for game
+// Draw the enemy on the screen
 Enemy.prototype.render = function() {
+    'usestrict';
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
 
 // Player class
 var Player = function() {
+    'usestrict';
     this.sprite = 'images/char-cat-girl.png';
     this.x = 200;
     this.y = 400;
@@ -43,32 +49,36 @@ var Player = function() {
 
 // Update speed of player
 Player.prototype.update = function(dt) {
+    'usestrict';
     this.x = this.x;
     this.y = this.y;
-    checkCollision();
+    this.checkCollision();
 };
 
 // Draw player
 Player.prototype.render = function() {
+    'usestrict';
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
 // Reset player to original square
 Player.prototype.playerReset = function() {
+    'usestrict';
     this.x = 200;
     this.y = 400;
 };
 
 // Control player with arrow keys
 Player.prototype.handleInput = function (keyup) {
+    'usestrict';
     switch(keyup) {
         case 'up':
             if (this.y > this.gameTop) {
                 this.y -= this.moveVertical;
             } else {
-                player.playerReset();
+                this.playerReset();
                 this.score += 20;
-                document.getElementById("score").innerHTML=player.score;
+                document.getElementById("score").innerHTML = this.score;
             }
             break;
         case 'down':
@@ -110,20 +120,18 @@ for (var i = 0; i < 3; i++) {
 var player = new Player();
 
 // Check for collisions with enemies
-var checkCollision = function() {
-
-    for (i = 0; i < allEnemies.length; i++) {
+Player.prototype.checkCollision = function() {
+    'usestrict';
+    for (i = 0, len = allEnemies.length; i < len; i++) {
         if (allEnemies[i].x < player.x + 50 &&
            allEnemies[i].x + 50 > player.x &&
            allEnemies[i].y < player.y + 75 &&
            75 + allEnemies[i].y > player.y) {
             console.log("collided");
-            player.playerReset();
-        // collision detected!
+            this.playerReset();
         }
     }
 };
-
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.

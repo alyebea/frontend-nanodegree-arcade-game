@@ -43,8 +43,8 @@ var Player = function() {
     this.gameRight = 400;
 
 // Pixels player moves vertical and horizontal
-    this.moveVertical = 85;
-    this.moveHorizontal = 100;
+    this.MOVE_VERTICAL = 83;
+    this.MOVE_HORIZONTAL = 101;
 };
 
 // Update speed of player
@@ -74,7 +74,7 @@ Player.prototype.handleInput = function (keyup) {
     switch(keyup) {
         case 'up':
             if (this.y > this.gameTop) {
-                this.y -= this.moveVertical;
+                this.y -= this.MOVE_VERTICAL;
             } else {
                 this.playerReset();
                 this.score += 20;
@@ -85,21 +85,21 @@ Player.prototype.handleInput = function (keyup) {
             if (this.y === 400) {
                 return null;
             } else {
-                this.y += this.moveVertical;
+                this.y += this.MOVE_VERTICAL;
             }
             break;
         case 'left':
             if (this.x === this.gameLeft) {
                 return null;
             } else {
-                this.x -= this.moveHorizontal;
+                this.x -= this.MOVE_HORIZONTAL;
             }
             break;
         case 'right':
             if (this.x === this.gameRight) {
                 return null;
             } else {
-                this.x += this.moveHorizontal;
+                this.x += this.MOVE_HORIZONTAL;
             }
             break;
         default:
@@ -114,7 +114,7 @@ for (var i = 0; i < 3; i++) {
     var speed2 = 40 * Math.floor(Math.random() * 11) + 4;
     allEnemies.push(new Enemy(-90, 50 + 90 * i, speed1));
     allEnemies.push(new Enemy(-90, 50 + 90 * i, speed2));
-};
+}
 
 // Calls player
 var player = new Player();

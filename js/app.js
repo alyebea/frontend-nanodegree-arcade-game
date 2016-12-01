@@ -3,7 +3,7 @@ Udacity Front-end Nanodegree. by Alye Carlevaro 11/28/16 */
 
 // Enemies class
 var Enemy = function(x,y, speed) {
-    'usestrict';
+    'use strict';
     this.sprite = 'images/enemy-bug.png';
     this.x = x;
     this.y = y;
@@ -12,7 +12,7 @@ var Enemy = function(x,y, speed) {
 
 // Update speed of enemy
 Enemy.prototype.update = function(dt) {
-    'usestrict';
+    'use strict';
     this.x = this.x + this.speed * dt;
 
 // Loop bugs back to beginning
@@ -23,14 +23,14 @@ Enemy.prototype.update = function(dt) {
 
 // Draw the enemy on the screen
 Enemy.prototype.render = function() {
-    'usestrict';
+    'use strict';
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
 
 // Player class
 var Player = function() {
-    'usestrict';
+    'use strict';
     this.sprite = 'images/char-cat-girl.png';
     this.x = 200;
     this.y = 400;
@@ -49,7 +49,7 @@ var Player = function() {
 
 // Update speed of player
 Player.prototype.update = function(dt) {
-    'usestrict';
+    'use strict';
     this.x = this.x;
     this.y = this.y;
     this.checkCollision();
@@ -57,20 +57,20 @@ Player.prototype.update = function(dt) {
 
 // Draw player
 Player.prototype.render = function() {
-    'usestrict';
+    'use strict';
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
 // Reset player to original square
 Player.prototype.playerReset = function() {
-    'usestrict';
+    'use strict';
     this.x = 200;
     this.y = 400;
 };
 
 // Control player with arrow keys
 Player.prototype.handleInput = function (keyup) {
-    'usestrict';
+    'use strict';
     switch(keyup) {
         case 'up':
             if (this.y > this.gameTop) {
@@ -121,12 +121,13 @@ var player = new Player();
 
 // Check for collisions with enemies
 Player.prototype.checkCollision = function() {
-    'usestrict';
-    for (i = 0, len = allEnemies.length; i < len; i++) {
-        if (allEnemies[i].x < player.x + 50 &&
-           allEnemies[i].x + 50 > player.x &&
-           allEnemies[i].y < player.y + 75 &&
-           75 + allEnemies[i].y > player.y) {
+    'use strict';
+    var len = allEnemies.length;
+    for (i = 0; i < len; i++) {
+        if (allEnemies[i].x < this.x + 50 &&
+           allEnemies[i].x + 50 > this.x &&
+           allEnemies[i].y < this.y + 75 &&
+           75 + allEnemies[i].y > this.y) {
             console.log("collided");
             this.playerReset();
         }
